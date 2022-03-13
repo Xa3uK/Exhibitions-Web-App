@@ -53,7 +53,7 @@ public class ExhibitionService {
             ResultSet rs = stmt.executeQuery(Queries.FIND_ALL_EXHIBITIONS);
             while (rs.next()){
                 Exhibition exhibition = new Exhibition();
-                exhibition.setExhibitionId(rs.getInt("id"));
+                exhibition.setId(rs.getInt("id"));
                 exhibition.setTheme(rs.getString("theme"));
                 exhibition.setHall(rs.getString("hall"));
                 exhibition.setStartDate(rs.getDate("start_date").toLocalDate());

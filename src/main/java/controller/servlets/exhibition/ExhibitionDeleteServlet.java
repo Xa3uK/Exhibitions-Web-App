@@ -1,25 +1,26 @@
-package controller.servlets;
+package controller.servlets.exhibition;
 
+import connection.DataBaseConnection;
 import controller.ExhibitionService;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Exhibition;
 
 import java.io.IOException;
-import java.util.List;
+import java.sql.Connection;
 
-@WebServlet("/exhibitions")
-public class ExhibitionsList extends HttpServlet {
+@WebServlet("/exhibition-del")
+public class ExhibitionDeleteServlet extends HttpServlet {
+    Connection connection;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ExhibitionService exService = new ExhibitionService();
-        List<Exhibition> exhibitions = exService.getExhibitions();
-        req.setAttribute("exhibitions", exhibitions);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("listExhibitions.jsp");
-        requestDispatcher.forward(req, resp);
+        connection = DataBaseConnection.getInstance().getConnection();
+        int id = Integer.parseInt(req.getParameter("id"));
+        exService.delete(id);
+        resp.sendRedirect("/exhibitions");
     }
 }

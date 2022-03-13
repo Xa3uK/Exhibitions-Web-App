@@ -12,7 +12,7 @@ public class Exhibition {
     Time startTime;
     Time endTime;
     int price;
-    int exhibitionId;
+    int id;
 
 
     public String getTheme() {
@@ -71,12 +71,12 @@ public class Exhibition {
         this.price = price;
     }
 
-    public int getExhibitionId() {
-        return exhibitionId;
+    public int getId() {
+        return id;
     }
 
-    public void setExhibitionId(int exhibitionId) {
-        this.exhibitionId = exhibitionId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
@@ -89,7 +89,7 @@ public class Exhibition {
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", price=" + price +
-                ", exhibitionId=" + exhibitionId +
+                ", exhibitionId=" + id +
                 '}';
     }
 }
