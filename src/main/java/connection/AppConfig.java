@@ -19,11 +19,11 @@ public class AppConfig {
             }
             prop.load(input);
 
-            System.out.println("Properties loaded from " + pathToFile);
-            System.out.println(prop.getProperty("db.url"));
-            System.out.println(prop.getProperty("db.user"));
-            System.out.println(prop.getProperty("db.password"));
-            System.out.println(prop.getProperty("db.driver"));
+//            System.out.println("Properties loaded from " + pathToFile);
+//            System.out.println(prop.getProperty("db.url"));
+//            System.out.println(prop.getProperty("db.user"));
+//            System.out.println(prop.getProperty("db.password"));
+//            System.out.println(prop.getProperty("db.driver"));
         } catch (IOException ex) {
             ex.printStackTrace();
         }

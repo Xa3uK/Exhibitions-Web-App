@@ -1,9 +1,8 @@
 package model;
 
 import java.sql.Time;
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalTime;
+
 
 public class Exhibition {
     String theme;
@@ -78,5 +77,19 @@ public class Exhibition {
 
     public void setExhibitionId(int exhibitionId) {
         this.exhibitionId = exhibitionId;
+    }
+
+    @Override
+    public String toString() {
+        return "Exhibition{" +
+                "theme='" + theme + '\'' +
+                ", hall='" + hall + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", price=" + price +
+                ", exhibitionId=" + exhibitionId +
+                '}';
     }
 }
