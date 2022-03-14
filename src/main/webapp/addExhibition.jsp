@@ -32,11 +32,9 @@
     </label>
     <button type="submit" >Add</button>
 </form>
-</div>
-</div>
 
 <div>
-    <button onclick="location.href='/autorized.html '">Back to main</button>
+    <button onclick="location.href='/adminPanel.jsp '">Back</button>
 </div>
 </body>
 </html>

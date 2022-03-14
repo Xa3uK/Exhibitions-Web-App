@@ -27,15 +27,20 @@
             <td>${exhibition.endTime}</td>
             <td>${exhibition.price}</td>
 
+            <c:if test="${role == 'admin'}">
+
             <td>
                 <a href='<c:url value="/exhibition-del?id=${exhibition.id}" />'>Delete</a>
                 <form method="post" action='<c:url value="/delete" />' style="display:inline;">
                     <input type="hidden" name="id" value="${exhibition.id}">
                 </form>
             </td>
+            </c:if>
+
+
         </tr>
     </c:forEach>
 </table>
-<button class="w3-btn w3-round-large" onclick="location.href='/autorized.html'">Back to main</button>
+<button class="w3-btn w3-round-large" onclick="location.href='/adminPanel.jsp'">Back</button>
 </body>
 </html>

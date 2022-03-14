@@ -45,4 +45,20 @@ public class UserValidator {
         }
         return find;
     }
+
+    public String userRole(String login){
+        connection = DataBaseConnection.getInstance().getConnection();
+       String role = null;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(Queries.FIND_BY_LOGIN);
+            stmt.setString(1, login);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                role = rs.getString("role");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return role;
+    }
 }

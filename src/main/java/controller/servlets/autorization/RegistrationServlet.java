@@ -21,14 +21,13 @@ public class RegistrationServlet extends HttpServlet {
         String pass = req.getParameter("password");
         String email = req.getParameter("email");
         if (validator.isValidLogin(login)) {
-            System.out.println("palivo");
             req.setAttribute("error", "data allready used");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("registration.jsp");
             requestDispatcher.forward(req, resp);
         } else {
             UserReg reg = new UserReg();
             reg.Registration(login, pass, email);
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("autorized.html");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("login.jsp");
             requestDispatcher.forward(req, resp);
         }
     }
