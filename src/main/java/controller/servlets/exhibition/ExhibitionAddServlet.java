@@ -51,7 +51,7 @@ public class ExhibitionAddServlet extends HttpServlet {
         exhibition.setEndTime(end);
         exhibition.setPrice(price);
 
-        exService.add(exhibition);
+        exService.addExhibition(exhibition);
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("addExhibition.jsp");
         requestDispatcher.forward(req, resp);

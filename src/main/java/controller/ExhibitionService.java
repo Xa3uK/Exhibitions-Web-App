@@ -12,7 +12,7 @@ public class ExhibitionService {
     Connection connection;
     private int noOfRecords;
 
-    public int add(ExhibitionDao ex) {
+    public int addExhibition(ExhibitionDao ex) {
         connection = DataBaseConnection.getInstance().getConnection();
         Integer id = null;
         try {
@@ -35,7 +35,7 @@ public class ExhibitionService {
         return id;
     }
 
-    public void delete(int id) {
+    public void deleteExhibition(int id) {
         connection = DataBaseConnection.getInstance().getConnection();
         try {
             PreparedStatement stmt = connection.prepareStatement(Queries.DEL_EXHIBITION);
@@ -70,7 +70,6 @@ public class ExhibitionService {
             rs = stmt.executeQuery("SELECT count(*) FROM exhibitions");
             if (rs.next())
                 this.noOfRecords = rs.getInt(1);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

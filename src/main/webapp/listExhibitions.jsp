@@ -1,6 +1,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <html>
 <head>
     <title>Exhibitions</title>
@@ -57,10 +58,6 @@
     </c:forEach>
 </table>
 
-<c:if test="${currentPage != 1}">
-    <td><a href="exhibitions?page=${currentPage - 1}">Previous</a></td>
-</c:if>
-
 <table>
     <tr>
         <c:forEach begin="1" end="${noOfPages}" var="i">
@@ -75,10 +72,6 @@
         </c:forEach>
     </tr>
 </table>
-
-<c:if test="${currentPage lt noOfPages}">
-    <td><a href="exhibitions?page=${currentPage + 1}">Next</a></td>
-</c:if>
 
 </br>
 

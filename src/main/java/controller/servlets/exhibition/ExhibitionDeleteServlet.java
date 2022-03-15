@@ -20,7 +20,7 @@ public class ExhibitionDeleteServlet extends HttpServlet {
         ExhibitionService exService = new ExhibitionService();
         connection = DataBaseConnection.getInstance().getConnection();
         int id = Integer.parseInt(req.getParameter("id"));
-        exService.delete(id);
+        exService.deleteExhibition(id);
         resp.sendRedirect("/exhibitions");
     }
 }

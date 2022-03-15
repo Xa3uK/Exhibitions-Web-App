@@ -33,7 +33,6 @@ public class ExhibitionBuyServlet extends HttpServlet {
             session.setAttribute("user", user);
             session.removeAttribute("error");
             resp.sendRedirect("/exhibitions");
-
         }
         else {
             session.setAttribute("error", "no money no honey");

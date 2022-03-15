@@ -12,6 +12,22 @@ import java.sql.SQLException;
 public class UserService {
     Connection connection;
 
+    public boolean registration(String login, String pass, String email){
+        connection = DataBaseConnection.getInstance().getConnection();
+        boolean register = false;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(Queries.REGISTER_USER);
+            stmt.setString(1, login);
+            stmt.setString(2, pass);
+            stmt.setString(3, email);
+            stmt.setString(4, "user");
+            register = stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return register;
+    }
+
     public boolean isValidUser(String login, String pass) {
         connection = DataBaseConnection.getInstance().getConnection();
         boolean valid = false;
@@ -47,23 +63,7 @@ public class UserService {
         return find;
     }
 
-    public String userRole(String login){
-        connection = DataBaseConnection.getInstance().getConnection();
-       String role = null;
-        try {
-            PreparedStatement stmt = connection.prepareStatement(Queries.FIND_BY_LOGIN);
-            stmt.setString(1, login);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                role = rs.getString("role");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return role;
-    }
-
-    public void insertMoney(int money, int userId){
+    public void depositMoney(int money, int userId){
         connection = DataBaseConnection.getInstance().getConnection();
         try {
             PreparedStatement stmt = connection.prepareStatement(Queries.ADD_MONEY);
