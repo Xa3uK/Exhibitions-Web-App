@@ -23,6 +23,7 @@ public class LoginServlet extends HttpServlet {
         boolean valid = userService.isValidUser(login, pass);
         if (valid) {
             HttpSession session = req.getSession();
+            session.setMaxInactiveInterval(60*60);
             UserDao user = userService.getUser(login);
             session.setAttribute("user", user);
             RequestDispatcher dispatcher = req.getRequestDispatcher("userPanel.jsp");

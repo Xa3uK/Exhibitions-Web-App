@@ -10,6 +10,7 @@ import java.util.List;
 
 public class ExhibitionService {
     Connection connection;
+    private int noOfRecords;
 
     public int add(ExhibitionDao ex) {
         connection = DataBaseConnection.getInstance().getConnection();
@@ -45,12 +46,13 @@ public class ExhibitionService {
         }
     }
 
-    public List<ExhibitionDao> getExhibitions() {
+    public List<ExhibitionDao> listExhibitions(int offset, int noOfRecords) {
         connection = DataBaseConnection.getInstance().getConnection();
         List<ExhibitionDao> exhibitions = new ArrayList<>();
+        String query = "SELECT * FROM exhibitions LIMIT " + noOfRecords + " OFFSET " + offset;
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(Queries.FIND_ALL_EXHIBITIONS);
+            ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 ExhibitionDao exhibition = new ExhibitionDao();
                 exhibition.setId(rs.getInt("id"));
@@ -63,6 +65,11 @@ public class ExhibitionService {
                 exhibition.setPrice(rs.getInt("price"));
                 exhibitions.add(exhibition);
             }
+            rs.close();
+
+            rs = stmt.executeQuery("SELECT count(*) FROM exhibitions");
+            if (rs.next())
+                this.noOfRecords = rs.getInt(1);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -123,7 +130,7 @@ public class ExhibitionService {
         return money;
     }
 
-    public void debitMoney(int money, int userId){
+    public void debitMoney(int money, int userId) {
         connection = DataBaseConnection.getInstance().getConnection();
         try {
             PreparedStatement stmt = connection.prepareStatement(Queries.DEBIT_MONEY);
@@ -133,5 +140,9 @@ public class ExhibitionService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getNoOfRecords() {
+        return noOfRecords;
     }
 }

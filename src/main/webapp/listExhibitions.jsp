@@ -56,6 +56,32 @@
         </tr>
     </c:forEach>
 </table>
+
+<c:if test="${currentPage != 1}">
+    <td><a href="exhibitions?page=${currentPage - 1}">Previous</a></td>
+</c:if>
+
+<table>
+    <tr>
+        <c:forEach begin="1" end="${noOfPages}" var="i">
+            <c:choose>
+                <c:when test="${currentPage eq i}">
+                    <td>${i}</td>
+                </c:when>
+                <c:otherwise>
+                    <td><a href="exhibitions?page=${i}">${i}</a></td>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+    </tr>
+</table>
+
+<c:if test="${currentPage lt noOfPages}">
+    <td><a href="exhibitions?page=${currentPage + 1}">Next</a></td>
+</c:if>
+
+</br>
+
 <button class="w3-btn w3-round-large" onclick="location.href='/userPanel.jsp'">Back</button>
 </body>
 </html>
