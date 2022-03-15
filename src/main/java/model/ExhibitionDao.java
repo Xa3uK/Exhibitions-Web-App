@@ -13,7 +13,15 @@ public class ExhibitionDao {
     Time endTime;
     int price;
     int id;
+    int soldTickets;
 
+    public int getSoldTickets() {
+        return soldTickets;
+    }
+
+    public void setSoldTickets(int soldTickets) {
+        this.soldTickets = soldTickets;
+    }
 
     public String getTheme() {
         return theme;

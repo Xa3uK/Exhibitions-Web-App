@@ -12,14 +12,14 @@ import model.ExhibitionDao;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/exhibitions")
+@WebServlet("/exhibition-stat")
 public class ExhibitionsStatServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ExhibitionService exService = new ExhibitionService();
-        List<ExhibitionDao> exhibitions = exService.getExhibitions();
+        List<ExhibitionDao> exhibitions = exService.getExhibitionsStat();
         req.setAttribute("exhibitions", exhibitions);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("listExhibitions.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("listExhibitionsStat.jsp");
         requestDispatcher.forward(req, resp);
     }
 }

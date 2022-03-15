@@ -70,6 +70,30 @@ public class ExhibitionService {
         return exhibitions;
     }
 
+    public List<ExhibitionDao> getExhibitionsStat() {
+        connection = DataBaseConnection.getInstance().getConnection();
+        List<ExhibitionDao> exhibitions = new ArrayList<>();
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(Queries.CHECK_EXHIBITION_STATISTICS);
+            while (rs.next()) {
+                ExhibitionDao exhibition = new ExhibitionDao();
+                exhibition.setTheme(rs.getString("theme"));
+                exhibition.setHall(rs.getString("hall"));
+                exhibition.setStartDate(rs.getDate("start_date").toLocalDate());
+                exhibition.setEndDate(rs.getDate("end_date").toLocalDate());
+                exhibition.setStartTime(rs.getTime("start_time"));
+                exhibition.setEndTime(rs.getTime("end_time"));
+                exhibition.setPrice(rs.getInt("price"));
+                exhibition.setSoldTickets(rs.getInt("sold_tickets"));
+                exhibitions.add(exhibition);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return exhibitions;
+    }
+
     public void buyTicket(int exId, int userId, int exPrice) {
         connection = DataBaseConnection.getInstance().getConnection();
         try {

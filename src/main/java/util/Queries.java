@@ -12,5 +12,9 @@ public interface Queries {
     String DEBIT_MONEY = "update users set money = money - ? where id = ?";
     String BUY_TICKET = "insert into tickets (user_id, exhibition_id) values (?, ?)";
     String CHECK_AMOUNT_MONEY = "select money from users where id = ?";
+    String CHECK_EXHIBITION_STATISTICS = "select e.id, e.theme, e.hall, e.price, e.start_date, e.end_date, e.start_time, e.end_time,\n" +
+            "count(*) as sold_tickets from exhibitions e\n" +
+            "join tickets t on (e.id = t.exhibition_id)\n" +
+            "group by e.id";
 
 }
