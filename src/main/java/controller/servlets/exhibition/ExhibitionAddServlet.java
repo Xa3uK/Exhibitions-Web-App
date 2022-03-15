@@ -8,7 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Exhibition;
+import model.ExhibitionDao;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -42,7 +42,7 @@ public class ExhibitionAddServlet extends HttpServlet {
         int price = Integer.parseInt(req.getParameter("price"));
 
         ExhibitionService exService = new ExhibitionService();
-        Exhibition exhibition = new Exhibition();
+        ExhibitionDao exhibition = new ExhibitionDao();
         exhibition.setTheme(theme);
         exhibition.setHall(hall);
         exhibition.setStartDate(startDate);

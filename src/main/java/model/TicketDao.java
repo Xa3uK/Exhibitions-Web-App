@@ -1,6 +1,6 @@
 package model;
 
-public class Ticket {
+public class TicketDao {
     private String userId;
     private String userMail;
     private String exhibitionName;

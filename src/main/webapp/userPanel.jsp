@@ -1,14 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<html>
-  <head>
+<head>
     <title> HOME PAGE </title>
-  </head>
-  <body>
+</head>
+<c:out value=" Hello ${user.login} !"/> </br>
+<c:out value=" Your money:  ${user.money}"/>
 
-  <c:out value =" Hello!  ${name}"/> </br>
-  <button onclick="location.href='./exhibitions'">Show all exhibitions</button>
-  <button onclick="location.href='./logout'">Logout</button>
-  </body>
+<button onclick="location.href='./deposit.jsp'">Depostit</button> </br>
+<button onclick="location.href='./exhibitions'">Show all exhibitions</button>
+
+<c:if test="${user.role == 'admin'}">
+    <button onclick="location.href='./exhibition-add'">Add exhibition</button>
+    <button onclick="location.href='./exhibition-stat'">Show statistics</button>
+</c:if>
+<br>
+
+<button onclick="location.href='./logout'">Logout</button>
+</body>
 </html>

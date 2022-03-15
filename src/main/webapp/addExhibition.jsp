@@ -34,7 +34,7 @@
 </form>
 
 <div>
-    <button onclick="location.href='/adminPanel.jsp '">Back</button>
+    <button onclick="location.href='/userPanel.jsp '">Back</button>
 </div>
 </body>
 </html>

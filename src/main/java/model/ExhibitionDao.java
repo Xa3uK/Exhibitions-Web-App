@@ -4,7 +4,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 
 
-public class Exhibition {
+public class ExhibitionDao {
     String theme;
     String hall;
     LocalDate startDate;

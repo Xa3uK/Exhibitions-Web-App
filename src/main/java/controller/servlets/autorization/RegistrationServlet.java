@@ -1,7 +1,7 @@
 package controller.servlets.autorization;
 
 import controller.UserReg;
-import controller.UserValidator;
+import controller.UserService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
-    UserValidator validator = new UserValidator();
+    UserService validator = new UserService();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
