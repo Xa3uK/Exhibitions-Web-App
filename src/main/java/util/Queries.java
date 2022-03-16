@@ -15,6 +15,7 @@ public interface Queries {
     String CHECK_EXHIBITION_STATISTICS = "select e.id, e.theme, e.hall, e.price, e.start_date, e.end_date, e.start_time, e.end_time,\n" +
             "count(*) as sold_tickets from exhibitions e\n" +
             "join tickets t on (e.id = t.exhibition_id)\n" +
-            "group by e.id";
-
+            "group by e.id order by sold_tickets desc";
+    String CHECK_EXHIBITION_PRICE = "select price from exhibitions where id = ?";
+    String GET_USER = "select * from users where id = ?";
 }

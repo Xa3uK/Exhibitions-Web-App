@@ -12,8 +12,11 @@
     <c:out value = "No money - no honey"/> </br>
 </c:if>
 
-<c:out value =" Hello!  ${user.login}"/> </br>
-<c:out value=" Your money:  ${user.money}"/> </br>
+<c:if test="${not empty user}">
+    <c:out value=" Hello ${user.login} !"/> </br>
+    <c:out value=" Your money:  ${user.money}"/>
+    <button onclick="location.href='./deposit.jsp'">Deposit</button> </br>
+</c:if>
 
 <table>
     <tr>

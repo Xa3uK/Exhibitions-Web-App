@@ -15,9 +15,10 @@ import java.io.IOException;
 @WebServlet("/deposit-money")
 public class DepositMoneyServlet extends HttpServlet {
 
+    @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher view = request.getRequestDispatcher("deposit.jsp");
-        view.forward(request, response);
+        RequestDispatcher disp = request.getRequestDispatcher("deposit.jsp");
+        disp.forward(request, response);
     }
 
     @Override
@@ -26,10 +27,17 @@ public class DepositMoneyServlet extends HttpServlet {
         UserDao user = (UserDao) session.getAttribute("user");
         int userId = user.getId();
         int money = Integer.parseInt(req.getParameter("money"));
-        UserService userService = new UserService();
-        userService.depositMoney(money, userId);
-        user.setMoney(user.getMoney() + money);
-        session.setAttribute("user", user);
-        resp.sendRedirect("/displayDeposit");
+
+        if (money > 0) {
+            UserService userService = new UserService();
+            userService.depositMoney(money, userId);
+            user.setMoney(user.getMoney() + money);
+            session.setAttribute("user", user);
+            session.removeAttribute("error");
+            resp.sendRedirect("/displayDeposit");
+        } else {
+            session.setAttribute("error", "Error: you put negative amount");
+            resp.sendRedirect("/displayDeposit");
+        }
     }
 }

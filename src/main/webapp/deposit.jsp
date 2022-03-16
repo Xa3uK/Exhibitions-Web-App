@@ -5,12 +5,18 @@
 <head>
     <title> Deposit </title>
 </head>
+
+<c:if test="${not empty error}">
+    <c:out value = "${error}"/>
+    <br>
+</c:if>
+
 <c:out value=" Hello ${user.login} !"/> </br>
 <c:out value=" Your money:  ${user.money}"/>
 
 <form action="/deposit-money" method="post" >
     <label>Money:
-        <input type="text" name="money" ><br/>
+        <input type="number" name="money" ><br/>
     </label>
     <button type="submit" >Deposit</button>
 </form>

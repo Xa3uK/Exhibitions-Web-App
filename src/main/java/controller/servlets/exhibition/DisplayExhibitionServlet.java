@@ -1,4 +1,4 @@
-package controller.servlets.user;
+package controller.servlets.exhibition;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -9,12 +9,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/displayDeposit")
-public class DisplayDepositServlet extends HttpServlet {
+@WebServlet("/display-exhibition")
+public class DisplayExhibitionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher view = request.getRequestDispatcher("deposit.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("addExhibition.jsp");
         view.forward(request, response);
     }
 }

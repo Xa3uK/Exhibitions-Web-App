@@ -11,34 +11,29 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.ExhibitionDao;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @WebServlet("/exhibition-add")
 public class ExhibitionAddServlet extends HttpServlet {
-    Connection connection;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("addExhibition.jsp");
-        requestDispatcher.forward(req, resp);
+        RequestDispatcher disp = req.getRequestDispatcher("addExhibition.jsp");
+        disp.forward(req, resp);
     }
-
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        connection = DataBaseConnection.getInstance().getConnection();
-
         String theme = req.getParameter("theme");
         String hall = req.getParameter("hall");
         LocalDate startDate = LocalDate.parse(req.getParameter("startDate"));
         LocalDate endDate = LocalDate.parse(req.getParameter("endDate"));
         LocalTime startTime = LocalTime.parse(req.getParameter("startTime"));
         LocalTime endTime = LocalTime.parse(req.getParameter("endTime"));
-       Time start = Time.valueOf(startTime);
-       Time end = Time.valueOf(endTime);
+        Time start = Time.valueOf(startTime);
+        Time end = Time.valueOf(endTime);
         int price = Integer.parseInt(req.getParameter("price"));
 
         ExhibitionService exService = new ExhibitionService();
@@ -53,7 +48,6 @@ public class ExhibitionAddServlet extends HttpServlet {
 
         exService.addExhibition(exhibition);
 
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("addExhibition.jsp");
-        requestDispatcher.forward(req, resp);
+        resp.sendRedirect("/display-exhibition");
     }
 }

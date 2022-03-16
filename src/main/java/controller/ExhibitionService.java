@@ -2,8 +2,10 @@ package controller;
 
 import connection.DataBaseConnection;
 import model.ExhibitionDao;
+import model.UserDao;
 import util.Queries;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,17 +102,18 @@ public class ExhibitionService {
         return exhibitions;
     }
 
-    public void buyTicket(int exId, int userId, int exPrice) {
+    public boolean buyTicket(int exhibitionId, int userId, int exhibitionPrice) {
         connection = DataBaseConnection.getInstance().getConnection();
         try {
             PreparedStatement stmt = connection.prepareStatement(Queries.BUY_TICKET);
             stmt.setInt(1, userId);
-            stmt.setInt(2, exId);
+            stmt.setInt(2, exhibitionId);
             stmt.execute();
-            debitMoney(exPrice, userId);
+            debitMoney(exhibitionPrice, userId);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public int checkAmount(int userId) {
@@ -144,4 +147,5 @@ public class ExhibitionService {
     public int getNoOfRecords() {
         return noOfRecords;
     }
+    
 }
