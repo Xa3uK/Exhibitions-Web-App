@@ -88,7 +88,7 @@ public class ExhibitionService {
         exhibition.setPrice(rs.getInt("price"));
     }
 
-    public List<ExhibitionDao> getExhibitionsStat() {
+    public List<ExhibitionDao> getExhibitionsWithStat() {
         Connection connection = dbcon.getConnection();
         List<ExhibitionDao> exhibitions = new ArrayList<>();
         try {
@@ -108,16 +108,29 @@ public class ExhibitionService {
         return exhibitions;
     }
 
-    public boolean buyTicket(int exhibitionId, int userId, int exhibitionPrice) {
+    public boolean buyTicket(int exhibitionId, int userId) {
         Connection connection = dbcon.getConnection();
         try {
-            PreparedStatement stmt = connection.prepareStatement(Queries.BUY_TICKET);
-            stmt.setInt(1, userId);
-            stmt.setInt(2, exhibitionId);
-            if (stmt.executeUpdate() > 0) {
-                return debitMoney(exhibitionPrice, userId);
+            connection.setAutoCommit(false);
+            int userMoney = checkAmount(userId);
+            int exhibitionPrice = checkExhibitionPrice(exhibitionId);
+            if (userMoney >= exhibitionPrice) {
+                PreparedStatement stmt = connection.prepareStatement(Queries.BUY_TICKET);
+                stmt.setInt(1, userId);
+                stmt.setInt(2, exhibitionId);
+                if (stmt.executeUpdate() > 0) {
+                    debitMoney(exhibitionPrice, userId);
+                    connection.commit();
+                    connection.setAutoCommit(true);
+                    return true;
+                }
             }
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         } finally {
             dbcon.releaseConnection(connection);
@@ -141,6 +154,24 @@ public class ExhibitionService {
             dbcon.releaseConnection(connection);
         }
         return money;
+    }
+
+    public int checkExhibitionPrice(int exhibitionId) {
+        Connection connection = dbcon.getConnection();
+        Integer price = null;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(Queries.CHECK_EXHIBITION_PRICE);
+            stmt.setInt(1, exhibitionId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                price = rs.getInt("price");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dbcon.releaseConnection(connection);
+        }
+        return price;
     }
 
     public boolean debitMoney(int money, int userId) {
