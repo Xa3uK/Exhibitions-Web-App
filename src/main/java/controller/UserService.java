@@ -10,27 +10,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserService {
-    Connection connection;
+    DataBaseConnection dbcon = DataBaseConnection.getInstance();
 
-    public boolean registration(String login, String pass, String email){
-        connection = DataBaseConnection.getInstance().getConnection();
-        boolean register = false;
+    public boolean registration(String login, String pass, String email) {
+       Connection connection = dbcon.getConnection();
+        boolean isRegister = false;
         try {
             PreparedStatement stmt = connection.prepareStatement(Queries.REGISTER_USER);
             stmt.setString(1, login);
             stmt.setString(2, pass);
             stmt.setString(3, email);
             stmt.setString(4, "user");
-            register = stmt.execute();
+            isRegister = stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dbcon.releaseConnection(connection);
         }
-        return register;
+        return isRegister;
     }
 
     public boolean isValidUser(String login, String pass) {
-        connection = DataBaseConnection.getInstance().getConnection();
-        boolean valid = false;
+        Connection connection = dbcon.getConnection();
+        boolean isValid = false;
         try {
             PreparedStatement stmt = connection.prepareStatement(Queries.FIND_BY_LOGIN);
             stmt.setString(1, login);
@@ -38,17 +40,19 @@ public class UserService {
             if (rs.next()) {
                 String userPass = rs.getString("password");
                 if (userPass.equals(pass)) {
-                    valid = true;
+                    isValid = true;
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dbcon.releaseConnection(connection);
         }
-        return valid;
+        return isValid;
     }
 
     public boolean isValidLogin(String login) {
-        connection = DataBaseConnection.getInstance().getConnection();
+        Connection connection = dbcon.getConnection();
         boolean find = false;
         try {
             PreparedStatement stmt = connection.prepareStatement(Queries.FIND_BY_LOGIN);
@@ -59,12 +63,14 @@ public class UserService {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dbcon.releaseConnection(connection);
         }
         return find;
     }
 
-    public void depositMoney(int money, int userId){
-        connection = DataBaseConnection.getInstance().getConnection();
+    public void depositMoney(int money, int userId) {
+        Connection connection = dbcon.getConnection();
         try {
             PreparedStatement stmt = connection.prepareStatement(Queries.ADD_MONEY);
             stmt.setInt(1, money);
@@ -72,17 +78,19 @@ public class UserService {
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dbcon.releaseConnection(connection);
         }
     }
 
-    public UserDao getUser(String login){
-        connection = DataBaseConnection.getInstance().getConnection();
+    public UserDao getUser(String login) {
+        Connection connection = dbcon.getConnection();
         UserDao user = new UserDao();
         try {
             PreparedStatement stmt = connection.prepareStatement(Queries.FIND_BY_LOGIN);
             stmt.setString(1, login);
             ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 user.setId(rs.getInt("id"));
                 user.setLogin(login);
                 user.setPassword(rs.getString("password"));
@@ -92,6 +100,8 @@ public class UserService {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dbcon.releaseConnection(connection);
         }
         return user;
     }

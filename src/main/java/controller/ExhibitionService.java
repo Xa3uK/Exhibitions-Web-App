@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExhibitionService {
-    Connection connection;
+    DataBaseConnection dbcon = DataBaseConnection.getInstance();
     private int noOfRecords;
 
     public int addExhibition(ExhibitionDao ex) {
-        connection = DataBaseConnection.getInstance().getConnection();
+        Connection connection = dbcon.getConnection();
         Integer id = null;
         try {
             PreparedStatement stmt = connection.prepareStatement(Queries.ADD_EXHIBITION, new String[]{"id"});
@@ -31,23 +31,27 @@ public class ExhibitionService {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dbcon.releaseConnection(connection);
         }
         return id;
     }
 
     public void deleteExhibition(int id) {
-        connection = DataBaseConnection.getInstance().getConnection();
+        Connection connection = dbcon.getConnection();
         try {
             PreparedStatement stmt = connection.prepareStatement(Queries.DEL_EXHIBITION);
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dbcon.releaseConnection(connection);
         }
     }
 
     public List<ExhibitionDao> listExhibitions(int offset, int noOfRecords) {
-        connection = DataBaseConnection.getInstance().getConnection();
+        Connection connection = dbcon.getConnection();
         List<ExhibitionDao> exhibitions = new ArrayList<>();
         String query = "SELECT * FROM exhibitions LIMIT " + noOfRecords + " OFFSET " + offset;
         try {
@@ -72,12 +76,14 @@ public class ExhibitionService {
                 this.noOfRecords = rs.getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dbcon.releaseConnection(connection);
         }
         return exhibitions;
     }
 
     public List<ExhibitionDao> getExhibitionsStat() {
-        connection = DataBaseConnection.getInstance().getConnection();
+        Connection connection = dbcon.getConnection();
         List<ExhibitionDao> exhibitions = new ArrayList<>();
         try {
             Statement stmt = connection.createStatement();
@@ -96,27 +102,31 @@ public class ExhibitionService {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dbcon.releaseConnection(connection);
         }
         return exhibitions;
     }
 
     public boolean buyTicket(int exhibitionId, int userId, int exhibitionPrice) {
-        connection = DataBaseConnection.getInstance().getConnection();
+        Connection connection = dbcon.getConnection();
         try {
             PreparedStatement stmt = connection.prepareStatement(Queries.BUY_TICKET);
             stmt.setInt(1, userId);
             stmt.setInt(2, exhibitionId);
             if (stmt.executeUpdate() > 0) {
-               return debitMoney(exhibitionPrice, userId);
+                return debitMoney(exhibitionPrice, userId);
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dbcon.releaseConnection(connection);
         }
         return false;
     }
 
     public int checkAmount(int userId) {
-        connection = DataBaseConnection.getInstance().getConnection();
+        Connection connection = dbcon.getConnection();
         int money = -1;
         try {
             PreparedStatement stmt = connection.prepareStatement(Queries.CHECK_AMOUNT_MONEY);
@@ -127,19 +137,23 @@ public class ExhibitionService {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dbcon.releaseConnection(connection);
         }
         return money;
     }
 
     public boolean debitMoney(int money, int userId) {
-        connection = DataBaseConnection.getInstance().getConnection();
+        Connection connection = dbcon.getConnection();
         try {
             PreparedStatement stmt = connection.prepareStatement(Queries.DEBIT_MONEY);
             stmt.setInt(1, money);
             stmt.setInt(2, userId);
-             return  stmt.executeUpdate() > 0;
+            return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dbcon.releaseConnection(connection);
         }
         return false;
     }
@@ -147,5 +161,4 @@ public class ExhibitionService {
     public int getNoOfRecords() {
         return noOfRecords;
     }
-
 }
