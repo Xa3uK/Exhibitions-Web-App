@@ -8,8 +8,8 @@
 </head>
 <body>
 
-<c:if test="${not empty error}">
-    <c:out value = "No money - no honey"/> </br>
+<c:if test="${not empty errorBuy}">
+    <c:out value = "${errorBuy}"/> </br>
 </c:if>
 
 <c:if test="${not empty user}">

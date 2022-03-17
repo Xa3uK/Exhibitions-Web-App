@@ -33,10 +33,10 @@ public class DepositMoneyServlet extends HttpServlet {
             userService.depositMoney(money, userId);
             user.setMoney(user.getMoney() + money);
             session.setAttribute("user", user);
-            session.removeAttribute("error");
+            session.removeAttribute("errorDeposit");
             resp.sendRedirect("/displayDeposit");
         } else {
-            session.setAttribute("error", "Error: you put negative amount");
+            session.setAttribute("errorDeposit", "Error: you put negative amount");
             resp.sendRedirect("/displayDeposit");
         }
     }

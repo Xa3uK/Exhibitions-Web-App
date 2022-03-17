@@ -6,8 +6,8 @@
     <title> Deposit </title>
 </head>
 
-<c:if test="${not empty error}">
-    <c:out value = "${error}"/>
+<c:if test="${not empty errorDeposit}">
+    <c:out value = "${errorDeposit}"/>
     <br>
 </c:if>
 
