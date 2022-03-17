@@ -18,4 +18,14 @@ public interface Queries {
             "group by e.id order by sold_tickets desc";
     String CHECK_EXHIBITION_PRICE = "select price from exhibitions where id = ?";
     String GET_USER = "select * from users where id = ?";
+    String SELECT_EXHIBITIONS_LIMIT = "SELECT * FROM exhibitions LIMIT ? OFFSET ?";
+    String SELECT_EXHIBITIONS_COUNT = "SELECT count(*) FROM exhibitions";
+    String GET_MY_TICKETS = "select e.theme, e.hall, e.price, e.start_date, e.end_date, e.start_time, e.end_time,\n" +
+            "count(*) as ticket_count  from exhibitions e\n" +
+            "join tickets t on (e.id = t.exhibition_id)\n" +
+            "join users u on (u.id = t.user_id)\n" +
+            "where user_id = ?\n" +
+            "group by e.id\n" +
+            "having count(*) > 0\n" +
+            "order by e.start_date";
 }

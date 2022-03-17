@@ -1,6 +1,6 @@
 package controller.servlets.exhibition;
 
-import connection.DataBaseConnection;
+import connection.ConnectionPool;
 import controller.ExhibitionService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,7 +18,7 @@ public class ExhibitionDeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ExhibitionService exService = new ExhibitionService();
-        connection = DataBaseConnection.getInstance().getConnection();
+        connection = ConnectionPool.getInstance().getConnection();
         int id = Integer.parseInt(req.getParameter("id"));
         exService.deleteExhibition(id);
         resp.sendRedirect("/exhibitions");

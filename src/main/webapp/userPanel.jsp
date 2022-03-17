@@ -13,6 +13,10 @@
 
 <button onclick="location.href='./exhibitions'">Show all exhibitions</button>
 
+<c:if test="${user.role == 'user'}">
+    <button onclick="location.href='./my-tickets'">My tickets</button>
+</c:if>
+
 <c:if test="${user.role == 'admin'}">
     <button onclick="location.href='./exhibition-add'">Add exhibition</button>
     <button onclick="location.href='./exhibition-stat'">Show statistics</button>

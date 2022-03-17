@@ -1,6 +1,5 @@
 package controller.servlets.exhibition;
 
-import connection.DataBaseConnection;
 import controller.ExhibitionService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;

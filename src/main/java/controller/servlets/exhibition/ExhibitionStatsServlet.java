@@ -17,7 +17,7 @@ public class ExhibitionStatsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ExhibitionService exService = new ExhibitionService();
-        List<ExhibitionDao> exhibitions = exService.getExhibitionsStat();
+        List<ExhibitionDao> exhibitions = exService.getExhibitionsWithStat();
         req.setAttribute("exhibitions", exhibitions);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("listExhibitionsStat.jsp");
         requestDispatcher.forward(req, resp);
