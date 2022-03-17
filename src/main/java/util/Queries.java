@@ -18,4 +18,6 @@ public interface Queries {
             "group by e.id order by sold_tickets desc";
     String CHECK_EXHIBITION_PRICE = "select price from exhibitions where id = ?";
     String GET_USER = "select * from users where id = ?";
+    String SELECT_EXHIBITIONS_LIMIT = "SELECT * FROM exhibitions LIMIT ? OFFSET ?";
+    String SELECT_EXHIBITIONS_COUNT = "SELECT count(*) FROM exhibitions";
 }

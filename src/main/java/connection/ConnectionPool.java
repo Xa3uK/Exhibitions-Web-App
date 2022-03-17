@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DataBaseConnection {
-    private static DataBaseConnection instance;
+public class ConnectionPool {
+    private static ConnectionPool instance;
     private List<Connection> connectionPool = createPool();
     private List<Connection> usedConnections = new ArrayList<>();
     private static int INITIAL_POOL_SIZE = 10;
@@ -54,9 +54,9 @@ public class DataBaseConnection {
         return DriverManager.getConnection(url, login, password);
     }
 
-    public static DataBaseConnection getInstance() {
+    public static ConnectionPool getInstance() {
         if (instance == null) {
-            instance = new DataBaseConnection();
+            instance = new ConnectionPool();
         }
         return instance;
     }

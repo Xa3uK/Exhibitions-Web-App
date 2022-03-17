@@ -1,6 +1,6 @@
 package controller;
 
-import connection.DataBaseConnection;
+import connection.ConnectionPool;
 import model.UserDao;
 import util.Queries;
 
@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserService {
-    DataBaseConnection dbcon = DataBaseConnection.getInstance();
+    ConnectionPool dbcon = ConnectionPool.getInstance();
 
     public boolean registration(String login, String pass, String email) {
        Connection connection = dbcon.getConnection();

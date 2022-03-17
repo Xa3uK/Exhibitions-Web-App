@@ -1,6 +1,6 @@
 package controller;
 
-import connection.DataBaseConnection;
+import connection.ConnectionPool;
 import model.ExhibitionDao;
 import util.Queries;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExhibitionService {
-    DataBaseConnection dbcon = DataBaseConnection.getInstance();
+    ConnectionPool dbcon = ConnectionPool.getInstance();
     private int noOfRecords;
 
     public int addExhibition(ExhibitionDao ex) {
@@ -53,33 +53,39 @@ public class ExhibitionService {
     public List<ExhibitionDao> listExhibitions(int offset, int noOfRecords) {
         Connection connection = dbcon.getConnection();
         List<ExhibitionDao> exhibitions = new ArrayList<>();
-        String query = "SELECT * FROM exhibitions LIMIT " + noOfRecords + " OFFSET " + offset;
         try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            PreparedStatement stmt = connection.prepareStatement(Queries.SELECT_EXHIBITIONS_LIMIT);
+            stmt.setInt(1, noOfRecords);
+            stmt.setInt(2, offset);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 ExhibitionDao exhibition = new ExhibitionDao();
-                exhibition.setId(rs.getInt("id"));
-                exhibition.setTheme(rs.getString("theme"));
-                exhibition.setHall(rs.getString("hall"));
-                exhibition.setStartDate(rs.getDate("start_date").toLocalDate());
-                exhibition.setEndDate(rs.getDate("end_date").toLocalDate());
-                exhibition.setStartTime(rs.getTime("start_time"));
-                exhibition.setEndTime(rs.getTime("end_time"));
-                exhibition.setPrice(rs.getInt("price"));
+                createExhibitionDao(rs, exhibition);
                 exhibitions.add(exhibition);
             }
             rs.close();
-
-            rs = stmt.executeQuery("SELECT count(*) FROM exhibitions");
+            stmt = connection.prepareStatement(Queries.SELECT_EXHIBITIONS_COUNT);
+            rs = stmt.executeQuery();
             if (rs.next())
-                this.noOfRecords = rs.getInt(1);
+                System.out.println(rs.getInt(1));
+            this.noOfRecords = rs.getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             dbcon.releaseConnection(connection);
         }
         return exhibitions;
+    }
+
+    private void createExhibitionDao(ResultSet rs, ExhibitionDao exhibition) throws SQLException {
+        exhibition.setId(rs.getInt("id"));
+        exhibition.setTheme(rs.getString("theme"));
+        exhibition.setHall(rs.getString("hall"));
+        exhibition.setStartDate(rs.getDate("start_date").toLocalDate());
+        exhibition.setEndDate(rs.getDate("end_date").toLocalDate());
+        exhibition.setStartTime(rs.getTime("start_time"));
+        exhibition.setEndTime(rs.getTime("end_time"));
+        exhibition.setPrice(rs.getInt("price"));
     }
 
     public List<ExhibitionDao> getExhibitionsStat() {
@@ -90,13 +96,7 @@ public class ExhibitionService {
             ResultSet rs = stmt.executeQuery(Queries.CHECK_EXHIBITION_STATISTICS);
             while (rs.next()) {
                 ExhibitionDao exhibition = new ExhibitionDao();
-                exhibition.setTheme(rs.getString("theme"));
-                exhibition.setHall(rs.getString("hall"));
-                exhibition.setStartDate(rs.getDate("start_date").toLocalDate());
-                exhibition.setEndDate(rs.getDate("end_date").toLocalDate());
-                exhibition.setStartTime(rs.getTime("start_time"));
-                exhibition.setEndTime(rs.getTime("end_time"));
-                exhibition.setPrice(rs.getInt("price"));
+                createExhibitionDao(rs, exhibition);
                 exhibition.setSoldTickets(rs.getInt("sold_tickets"));
                 exhibitions.add(exhibition);
             }
