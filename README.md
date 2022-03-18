@@ -14,4 +14,4 @@ db.url = jdbc:postgresql://localhost:5432/your_database_name<br>
 db.user = your_login<br>
 db.password = your_password<br>
 db.driver = org.postgresql.Driver<br>
-3. Run app from Intelij Idea with your Tomcat configuration or put .war archive of project to Apache Tomcat directory
+3. Run app from Intelij Idea with your Tomcat configuration or put .war archive of project to Apache Tomcat directory, then localhost:8080/app_name
